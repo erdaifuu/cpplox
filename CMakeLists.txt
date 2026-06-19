@@ -4,10 +4,13 @@ project(cpplox)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(cpplox
-        main.cpp
+        lox.cpp
         token_type.h
         token.h
         scanner.cpp
         scanner.h
         token_type.h
+        token.cpp
+        lox.h
+        main.cpp
 )

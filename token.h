@@ -15,10 +15,8 @@ public:
     Token(token_type type, std::string lexeme, std::string literal, int line)
         : type(type), lexeme(lexeme), literal(literal), line(line) {}
 
-    std::string to_string() const {
-        return std::to_string(type) + " " + lexeme + " " + literal;
-    }
-
+    std::string to_string() const;
+    friend std::ostream& operator<<(std::ostream& os, const Token& t);
 };
 
 #endif //CPPLOX_TOKEN_H
