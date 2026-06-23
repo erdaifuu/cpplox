@@ -13,4 +13,6 @@ add_executable(cpplox
         token.cpp
         lox.h
         main.cpp
+        expr.h
+        ast_printer.h
 )
