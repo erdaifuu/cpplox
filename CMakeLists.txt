@@ -15,4 +15,6 @@ add_executable(cpplox
         main.cpp
         expr.h
         ast_printer.h
+        parser.cpp
+        parser.h
 )
