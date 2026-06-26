@@ -3,7 +3,7 @@
 
 #include "lox.h"
 
-const std::unordered_map<std::string, token_type> Scanner::keywords = {
+const std::unordered_map<std::string, TokenType> Scanner::keywords = {
     {"and",    AND},
     {"class",  CLASS},
     {"else",   ELSE},
@@ -115,12 +115,12 @@ void Scanner::scan_token()
     }
 }
 
-void Scanner::add_token(token_type type)
+void Scanner::add_token(TokenType type)
 {
     add_token(type, "");
 }
 
-void Scanner::add_token(token_type type, const std::string& literal)
+void Scanner::add_token(TokenType type, const std::string& literal)
 {
     std::string text = source.substr(start, current - start);
     tokens.emplace_back(type, text, literal, line);
@@ -170,7 +170,7 @@ void Scanner::identifier()
     while (is_alphanumeric(peek())) advance();
 
     std::string text = source.substr(start, current - start);
-    token_type type = IDENTIFIER;
+    TokenType type = IDENTIFIER;
     auto it = keywords.find(text);
     if (it != keywords.end()) type = it->second;
     add_token(type);

@@ -7,12 +7,12 @@
 class Token
 {
 public:
-    const token_type type;
+    const TokenType type;
     const std::string lexeme;
     const std::string literal;
     const int line;
 
-    Token(token_type type, std::string lexeme, std::string literal, int line)
+    Token(TokenType type, std::string lexeme, std::string literal, int line)
         : type(type), lexeme(lexeme), literal(literal), line(line) {}
 
     std::string to_string() const;

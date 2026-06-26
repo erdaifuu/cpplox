@@ -25,8 +25,8 @@ private:
 
     // token
     void scan_token();
-    void add_token(token_type type);
-    void add_token(token_type type, const std::string& literal);
+    void add_token(TokenType type);
+    void add_token(TokenType type, const std::string& literal);
 
     // literal scanner helpers
     void string();
@@ -41,7 +41,7 @@ private:
     // variables
     const std::string source;
     std::vector<Token> tokens;
-    static const std::unordered_map<std::string, token_type> keywords;
+    static const std::unordered_map<std::string, TokenType> keywords;
 
     int start{};
     // TODO: we use current to grab token substrings, but in C++ we use start_index + length for that. Swap out with length eventually.
