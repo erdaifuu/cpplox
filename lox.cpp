@@ -18,6 +18,15 @@ void error(int line, const std::string& msg)
     report(line, "", msg);
 }
 
+void error(const token& tok, const std::string& msg)
+{
+    if (tok.type == END_OF_FILE) {
+        report(tok.line, " at end", msg);
+    } else {
+        report(tok.line, " at '" + tok.lexeme + "'", msg);
+    }
+}
+
 void run(const std::string& source)
 {
     scanner scanner(source);

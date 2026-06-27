@@ -5,6 +5,8 @@
 
 extern bool g_hadError;
 void error(int line, const std::string& msg);
+void error(const token& tok, const std::string& msg);
+
 void report(int line, const std::string& where, const std::string& msg);
 void run(const std::string& source);
 void run_file(const std::string& path);

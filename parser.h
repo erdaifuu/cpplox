@@ -11,8 +11,13 @@ class parser
 public:
     explicit parser(std::vector<token> tokens)
         : tokens(std::move(tokens)) {};
+    std::unique_ptr<expr> parse();
 
 private:
+    struct parse_error : std::runtime_error {
+        parse_error() : std::runtime_error("parse error") {}
+    };
+
     // helpers
     bool match(std::initializer_list<token_type> types);
     bool check(token_type type);
@@ -21,6 +26,9 @@ private:
     bool is_at_end() const;
     token peek() const;
     token previous() const;
+    void synchronize();
+
+    static parser::parse_error error(const token& token, const std::string& message);
 
     // parsing
     std::unique_ptr<expr> expression();
