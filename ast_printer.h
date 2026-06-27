@@ -5,34 +5,34 @@
 #include <initializer_list>
 #include "expr.h"
 
-struct AstPrinter : Visitor {
+struct AstPrinter : visitor {
     std::string result;
 
-    std::string print(Expr& expr) {
+    std::string print(expr& expr) {
         expr.accept(*this);
         return result;
     }
 
-    void visit_literal(Literal& expr) override {
+    void visit_literal(literal& expr) override {
         result = expr.value.empty() ? "nil" : expr.value;
     }
 
-    void visit_grouping(Grouping& expr) override {
+    void visit_grouping(grouping& expr) override {
         parenthesize("group", {expr.expression.get()});
     }
 
-    void visit_unary(Unary& expr) override {
+    void visit_unary(unary& expr) override {
         parenthesize(expr.op.lexeme, {expr.right.get()});
     }
 
-    void visit_binary(Binary& expr) override {
+    void visit_binary(binary& expr) override {
         parenthesize(expr.op.lexeme, {expr.left.get(), expr.right.get()});
     }
 
 private:
-    void parenthesize(const std::string& name, std::initializer_list<Expr*> exprs) {
+    void parenthesize(const std::string& name, std::initializer_list<expr*> exprs) {
         std::string out = "(" + name;
-        for (Expr* expr : exprs) {
+        for (expr* expr : exprs) {
             expr->accept(*this);
             out += " " + result;
         }

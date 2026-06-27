@@ -1,7 +1,7 @@
 #ifndef CPPLOX_TOKEN_TYPE_H
 #define CPPLOX_TOKEN_TYPE_H
 
-enum TokenType
+enum token_type
 {
     // Single-character tokens.
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,

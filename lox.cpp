@@ -20,10 +20,10 @@ void error(int line, const std::string& msg)
 
 void run(const std::string& source)
 {
-    Scanner scanner(source);
-    std::vector<Token> tokens = scanner.scan_tokens();
+    scanner scanner(source);
+    std::vector<token> tokens = scanner.scan_tokens();
 
-    for (const Token& token : tokens)
+    for (const token& token : tokens)
     {
         std::cout << token << '\n';
     }

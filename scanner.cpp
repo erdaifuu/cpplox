@@ -3,7 +3,7 @@
 
 #include "lox.h"
 
-const std::unordered_map<std::string, TokenType> Scanner::keywords = {
+const std::unordered_map<std::string, token_type> scanner::keywords = {
     {"and",    AND},
     {"class",  CLASS},
     {"else",   ELSE},
@@ -24,17 +24,17 @@ const std::unordered_map<std::string, TokenType> Scanner::keywords = {
 
 // helpers
 
-bool Scanner::is_at_end() const
+bool scanner::is_at_end() const
 {
     return current >= source.length();
 }
 
-char Scanner::advance()
+char scanner::advance()
 {
     return source[current++];
 }
 
-bool Scanner::match(char expected)
+bool scanner::match(char expected)
 {
     if (is_at_end()) return false;
     if (source[current] != expected) return false;
@@ -43,13 +43,13 @@ bool Scanner::match(char expected)
     return true;
 }
 
-char Scanner::peek() const
+char scanner::peek() const
 {
     if (is_at_end()) return '\0';
     return source[current];
 }
 
-char Scanner::peek_next() const
+char scanner::peek_next() const
 {
     if (current + 1 >= source.length()) return '\0';
     return source[current + 1];
@@ -57,7 +57,7 @@ char Scanner::peek_next() const
 
 // token
 
-std::vector<Token> Scanner::scan_tokens()
+std::vector<token> scanner::scan_tokens()
 {
     while (!is_at_end())
     {
@@ -70,7 +70,7 @@ std::vector<Token> Scanner::scan_tokens()
     return tokens;
 }
 
-void Scanner::scan_token()
+void scanner::scan_token()
 {
     char c = advance();
     switch (c)
@@ -115,12 +115,12 @@ void Scanner::scan_token()
     }
 }
 
-void Scanner::add_token(TokenType type)
+void scanner::add_token(token_type type)
 {
     add_token(type, "");
 }
 
-void Scanner::add_token(TokenType type, const std::string& literal)
+void scanner::add_token(token_type type, const std::string& literal)
 {
     std::string text = source.substr(start, current - start);
     tokens.emplace_back(type, text, literal, line);
@@ -128,7 +128,7 @@ void Scanner::add_token(TokenType type, const std::string& literal)
 
 // literal scanner helpers
 
-void Scanner::string()
+void scanner::string()
 {
     while (peek() != '"' && !is_at_end()) {
         if (peek() == '\n') line++;
@@ -148,7 +148,7 @@ void Scanner::string()
     add_token(STRING, value);
 }
 
-void Scanner::number()
+void scanner::number()
 {
     while (is_digit(peek())) advance();
 
@@ -165,12 +165,12 @@ void Scanner::number()
     add_token(NUMBER, source.substr(start, current - start));
 }
 
-void Scanner::identifier()
+void scanner::identifier()
 {
     while (is_alphanumeric(peek())) advance();
 
     std::string text = source.substr(start, current - start);
-    TokenType type = IDENTIFIER;
+    token_type type = IDENTIFIER;
     auto it = keywords.find(text);
     if (it != keywords.end()) type = it->second;
     add_token(type);
@@ -178,19 +178,19 @@ void Scanner::identifier()
 
 // static character classification
 
-bool Scanner::is_digit(const char c)
+bool scanner::is_digit(const char c)
 {
     return c >= '0' && c <= '9';
 }
 
-bool Scanner::is_alpha(const char c)
+bool scanner::is_alpha(const char c)
 {
     return (c >= 'a' && c <= 'z') ||
            (c >= 'A' && c <= 'Z') ||
             c == '_';
 }
 
-bool Scanner::is_alphanumeric(const char c)
+bool scanner::is_alphanumeric(const char c)
 {
     return is_alpha(c) || is_digit(c);
 }

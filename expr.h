@@ -5,61 +5,61 @@
 #include <string>
 #include "token.h"
 
-struct Binary;
-struct Grouping;
-struct Literal;
-struct Unary;
+struct binary;
+struct grouping;
+struct literal;
+struct unary;
 
-struct Visitor {
-    virtual void visit_binary(Binary& expr) = 0;
-    virtual void visit_grouping(Grouping& expr) = 0;
-    virtual void visit_literal(Literal& expr) = 0;
-    virtual void visit_unary(Unary& expr) = 0;
-    virtual ~Visitor() = default;
+struct visitor {
+    virtual void visit_binary(binary& expr) = 0;
+    virtual void visit_grouping(grouping& expr) = 0;
+    virtual void visit_literal(literal& expr) = 0;
+    virtual void visit_unary(unary& expr) = 0;
+    virtual ~visitor() = default;
 };
 
-struct Expr {
-    virtual void accept(Visitor& visitor) = 0;
-    virtual ~Expr() = default;
+struct expr {
+    virtual void accept(visitor& visitor) = 0;
+    virtual ~expr() = default;
 };
 
-struct Binary : Expr {
-    std::unique_ptr<Expr> left;
-    Token op;
-    std::unique_ptr<Expr> right;
+struct binary : expr {
+    std::unique_ptr<expr> left;
+    token op;
+    std::unique_ptr<expr> right;
 
-    Binary(std::unique_ptr<Expr> left, Token op, std::unique_ptr<Expr> right)
+    binary(std::unique_ptr<expr> left, token op, std::unique_ptr<expr> right)
         : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
 
-    void accept(Visitor& visitor) override { visitor.visit_binary(*this); }
+    void accept(visitor& visitor) override { visitor.visit_binary(*this); }
 };
 
-struct Grouping : Expr {
-    std::unique_ptr<Expr> expression;
+struct grouping : expr {
+    std::unique_ptr<expr> expression;
 
-    explicit Grouping(std::unique_ptr<Expr> expression)
+    explicit grouping(std::unique_ptr<expr> expression)
         : expression(std::move(expression)) {}
 
-    void accept(Visitor& visitor) override { visitor.visit_grouping(*this); }
+    void accept(visitor& visitor) override { visitor.visit_grouping(*this); }
 };
 
-struct Literal : Expr {
+struct literal : expr {
     std::string value;
 
-    explicit Literal(std::string value)
+    explicit literal(std::string value)
         : value(std::move(value)) {}
 
-    void accept(Visitor& visitor) override { visitor.visit_literal(*this); }
+    void accept(visitor& visitor) override { visitor.visit_literal(*this); }
 };
 
-struct Unary : Expr {
-    Token op;
-    std::unique_ptr<Expr> right;
+struct unary : expr {
+    token op;
+    std::unique_ptr<expr> right;
 
-    Unary(Token op, std::unique_ptr<Expr> right)
+    unary(token op, std::unique_ptr<expr> right)
         : op(std::move(op)), right(std::move(right)) {}
 
-    void accept(Visitor& visitor) override { visitor.visit_unary(*this); }
+    void accept(visitor& visitor) override { visitor.visit_unary(*this); }
 };
 
 #endif //CPPLOX_EXPR_H

@@ -6,33 +6,33 @@
 
 #include <vector>
 
-class Parser
+class parser
 {
 public:
-    explicit Parser(std::vector<Token> tokens)
+    explicit parser(std::vector<token> tokens)
         : tokens(std::move(tokens)) {};
 
 private:
     // helpers
-    bool match(std::initializer_list<TokenType> types);
-    bool check(TokenType type);
-    Token consume(TokenType type, std::string message);
-    Token advance();
+    bool match(std::initializer_list<token_type> types);
+    bool check(token_type type);
+    token consume(token_type type, std::string message);
+    token advance();
     bool is_at_end() const;
-    Token peek() const;
-    Token previous() const;
+    token peek() const;
+    token previous() const;
 
     // parsing
-    std::unique_ptr<Expr> expression();
-    std::unique_ptr<Expr> equality();
-    std::unique_ptr<Expr> comparison();
-    std::unique_ptr<Expr> term();
-    std::unique_ptr<Expr> factor();
-    std::unique_ptr<Expr> unary();
-    std::unique_ptr<Expr> primary();
+    std::unique_ptr<expr> expression();
+    std::unique_ptr<expr> equality();
+    std::unique_ptr<expr> comparison();
+    std::unique_ptr<expr> term();
+    std::unique_ptr<expr> factor();
+    std::unique_ptr<expr> unary();
+    std::unique_ptr<expr> primary();
 
     // variables
-    const std::vector<Token> tokens;
+    const std::vector<token> tokens;
     int current = 0;
 };
 

@@ -2,12 +2,12 @@
 
 #include <string>
 
-std::string Token::to_string() const
+std::string token::to_string() const
 {
     return std::to_string(type) + " " + lexeme + " " + literal;
 }
 
-std::ostream& operator<<(std::ostream& os, const Token& t)
+std::ostream& operator<<(std::ostream& os, const token& t)
 {
     return os << t.to_string();
 }
