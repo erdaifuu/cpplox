@@ -95,6 +95,12 @@ bool Parser::match(std::initializer_list<TokenType> types)
 
     return false;
 }
+Token Parser::consume(TokenType type, std::string message) {
+    if (check(type)) return advance();
+
+    throw error(peek(), message);
+}
+
 
 bool Parser::check(TokenType type)
 {
@@ -121,4 +127,9 @@ Token Parser::peek() const
 Token Parser::previous() const
 {
     return tokens[current - 1];
+}
+
+ParseError error(Token token, std::string message) {
+    lox::error(token, message);
+    return new ParseError();
 }

@@ -16,6 +16,7 @@ private:
     // helpers
     bool match(std::initializer_list<TokenType> types);
     bool check(TokenType type);
+    Token consume(TokenType type, std::string message);
     Token advance();
     bool is_at_end() const;
     Token peek() const;
