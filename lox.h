@@ -2,6 +2,7 @@
 #define CPPLOX_LOX_H
 
 #include <string>
+#include "token.h"
 
 extern bool g_hadError;
 void error(int line, const std::string& msg);

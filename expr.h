@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <string>
+
+#include "lox_value.h"
 #include "token.h"
 
 struct binary;
@@ -11,15 +13,15 @@ struct literal;
 struct unary;
 
 struct visitor {
-    virtual void visit_binary(binary& expr) = 0;
-    virtual void visit_grouping(grouping& expr) = 0;
-    virtual void visit_literal(literal& expr) = 0;
-    virtual void visit_unary(unary& expr) = 0;
+    virtual lox_value visit_binary(binary& expr) = 0;
+    virtual lox_value visit_grouping(grouping& expr) = 0;
+    virtual lox_value visit_literal(literal& expr) = 0;
+    virtual lox_value visit_unary(unary& expr) = 0;
     virtual ~visitor() = default;
 };
 
 struct expr {
-    virtual void accept(visitor& visitor) = 0;
+    virtual lox_value accept(visitor& visitor) = 0;
     virtual ~expr() = default;
 };
 
@@ -31,7 +33,7 @@ struct binary : expr {
     binary(std::unique_ptr<expr> left, token op, std::unique_ptr<expr> right)
         : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
 
-    void accept(visitor& visitor) override { visitor.visit_binary(*this); }
+    lox_value accept(visitor& visitor) override { return visitor.visit_binary(*this); }
 };
 
 struct grouping : expr {
@@ -40,7 +42,7 @@ struct grouping : expr {
     explicit grouping(std::unique_ptr<expr> expression)
         : expression(std::move(expression)) {}
 
-    void accept(visitor& visitor) override { visitor.visit_grouping(*this); }
+    lox_value accept(visitor& visitor) override { return visitor.visit_grouping(*this); }
 };
 
 struct literal : expr {
@@ -49,7 +51,7 @@ struct literal : expr {
     explicit literal(std::string value)
         : value(std::move(value)) {}
 
-    void accept(visitor& visitor) override { visitor.visit_literal(*this); }
+    lox_value accept(visitor& visitor) override { return visitor.visit_literal(*this); }
 };
 
 struct unary : expr {
@@ -59,7 +61,7 @@ struct unary : expr {
     unary(token op, std::unique_ptr<expr> right)
         : op(std::move(op)), right(std::move(right)) {}
 
-    void accept(visitor& visitor) override { visitor.visit_unary(*this); }
+    lox_value accept(visitor& visitor) override { visitor.visit_unary(*this); }
 };
 
 #endif //CPPLOX_EXPR_H

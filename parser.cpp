@@ -72,7 +72,7 @@ std::unique_ptr<expr> parser::unary()
     while (match({BANG, MINUS})) {
         token op = previous();
         auto right = unary();
-        return std::make_unique<unary>(op, std::move(right));
+        return std::make_unique<::unary>(op, std::move(right));
     }
 
     return primary();
