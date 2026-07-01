@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 4.1)
 project(cpplox)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 add_executable(cpplox
         lox.cpp
@@ -19,4 +19,5 @@ add_executable(cpplox
         parser.h
         interpreter.cpp
         interpreter.h
+        lox_value.h
 )

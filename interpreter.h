@@ -6,9 +6,14 @@
 #define CPPLOX_INTERPRETER_H
 
 #include "expr.h"
+#include "lox_value.h"
 
 class interpreter : public visitor
 {
+public:
+    lox_value visit_literal(literal& expr) override {
+        return expr.value;
+    }
 };
 
 
